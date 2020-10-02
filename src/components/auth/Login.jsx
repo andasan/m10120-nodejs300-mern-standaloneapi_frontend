@@ -18,10 +18,13 @@ export default function Register() {
             const loginUser = {email, password};
             const loginRes = await Axios.post('http://localhost:8080/users/login', loginUser);
 
-            console.log(loginRes.data);
-            // setUserData({
-            //     token: 
-            // })
+            setUserData({
+                token: loginRes.data.token,
+                user: loginRes.data.user
+            });
+
+            localStorage.setItem("auth-token", loginRes.data.token);
+            history.push('/');
 
         }catch(err){
             console.log(err);
