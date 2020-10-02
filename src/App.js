@@ -17,24 +17,25 @@ function App() {
   useEffect(() => {
     const checkLoggedIn = async () => {
       let token = localStorage.getItem("auth-token");
-      if(token === null){
+      if (token === null) {
         localStorage.setItem("auth-token", "");
         token = "";
       }
 
       const tokenRes = await Axios.post(
-        "http://localhost:8080/users/tokenIsValid", 
-        null, 
+        "http://localhost:8080/users/tokenIsValid",
+        null,
         {
           headers: { "x-auth-token": token }
         }
       );
 
-      if(tokenRes.data){
+      if (tokenRes.data) {
         const userRes = await Axios.get(
-          "http://localhost:8080/users/", 
-          { headers: { "x-auth-token": token }
-        })
+          "http://localhost:8080/users/",
+          {
+            headers: { "x-auth-token": token }
+          })
         setUserData({
           token: token,
           user: userRes.data
@@ -49,10 +50,12 @@ function App() {
     <BrowserRouter>
       <UserContext.Provider value={{ userData, setUserData }}>
         <Header />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-        </Switch>
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+          </Switch>
+        </div>
       </UserContext.Provider>
     </BrowserRouter>
   );
